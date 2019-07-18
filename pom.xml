@@ -9,6 +9,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ride_tracker Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -37,7 +38,21 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.3.6.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.16</version>
+		</dependency>
+		
 	</dependencies>
+	
 	<build>
 		<finalName>ride_tracker</finalName>
 		<plugins>
@@ -52,4 +67,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 </project>
