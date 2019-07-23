@@ -3,11 +3,14 @@ package com.pluralsight.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -112,6 +115,28 @@ public class RideRepositoryImpl implements RideRepository {
 	@Override
 	public void updateRides(List<Object[]> pairs) {
 		jdbcTemplate.batchUpdate("UPDATE ride SET ride_date = ? WHERE id = ?", pairs);
+	}
+
+	@Override
+	public void deleteRide(Integer id) {
+		
+		//
+		// modo mais simples para deletar um registro eh com o JdbcTemplate, como no ex a seguir:
+		//
+		
+		// jdbcTemplate.update("DELETE FROM ride WHERE id = ?", id);
+		
+		//
+		// podemos fazer um delete usando NamedParameters tbm (eu acho mais trabalhoso, talvez faca sentido em um cenario que tenho mtos parametros na query)
+		//
+		
+		NamedParameterJdbcTemplate namedTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("id", id);
+		
+		namedTemplate.update("DELETE FROM ride WHERE id = :id", paramMap);
+		
 	}
 	
 }
