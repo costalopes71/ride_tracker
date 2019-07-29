@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pluralsight.model.Ride;
 import com.pluralsight.repository.RideRepository;
@@ -37,6 +39,7 @@ public class RideServiceImpl implements RideService {
 	}
 
 	@Override
+	@Transactional
 	public void batch() {
 
 		List<Ride> rides = rideRepository.getRides();
@@ -49,6 +52,11 @@ public class RideServiceImpl implements RideService {
 		}
 		
 		rideRepository.updateRides(pairs);
+		
+		// aqui estou simulando um erro acontecendo durante as DMLs sendo executadas no banco e quero demonstrar que 
+		// com a anotacao Transactional agora esse metodo sera transacional, e caso algum erro aconteca as atualizacoes
+		// nao serao feitas (rollback)
+		throw new DataAccessException("Testing Exception Handling") { private static final long serialVersionUID = -7235004524905594979L; };
 		
 	}
 
